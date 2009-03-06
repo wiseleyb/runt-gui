@@ -31,7 +31,7 @@ Rails::Initializer.run do |config|
   # config.gem "rspec-rails"
   # config.gem "cucumber" 
   # config.gem "webrat"
-  config.gem "calendar_date_select"
+  # config.gem "calendar_date_select"
   
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
