@@ -1,0 +1,2 @@
+module MyWombatsHelper
+end

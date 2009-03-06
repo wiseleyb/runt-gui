@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @my_wombat.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @my_wombat.description %>
+</p>
+
+<p>
+  <b>Schedule:</b>
+  <%=h @my_wombat.schedule %>
+</p>
+
+
+<%= link_to 'Edit', edit_my_wombat_path(@my_wombat) %> |
+<%= link_to 'Back', my_wombats_path %>

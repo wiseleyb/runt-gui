@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Schedule your WOMBAT!</title>
+    <%= javascript_include_tag :defaults %>
+		<%= stylesheet_link_tag "application" %>
+		<%= stylesheet_link_tag "calendar/grey/style" %>
+		<%= calendar_date_select_includes "silver" %>
+		<%= javascript_include_tag "application" %>
+  </head>
+  
+  <body>
+		<div id="container">
+			<div id="header">
+				<div id="wombat-graphic">
+					<a href="/"><img src="/images/wombat-bw.png"/></a>
+				</div>
+				<h1>Schedule your WOMBAT!</h1>
+				<p>Wombats like schedules even though they're not Swiss</p>
+				<br style="clear:both;"/>
+				<hr/>
+			</div>
+			<div id="content">
+	    	<%= yield %>
+			</div>
+		</div>
+		
+		<p><small>Thank you TopFunky (aka Geofrey Grosenbach) for the <a href="http://github.com/topfunky/calendar_helper/tree/master">Calendar Helper!</a></small></p>
+		<p><small>Thank you Tim Harper for the <a href="http://code.google.com/p/calendardateselect/">Calendar Date Select</a></small></p>
+  </body>
+</html>

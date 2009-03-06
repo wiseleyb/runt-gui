@@ -1,0 +1,18 @@
+body {
+	background-color: #222;
+	color: #999999;
+}
+a {
+	color: white;
+}
+#container {
+	background-color: #555;
+	border:solid 1px black;
+	margin:100px;
+	padding:20px;
+}
+#wombat-graphic {
+	float:left;
+	padding-right:20px;
+	padding-bottom:20px;
+}
