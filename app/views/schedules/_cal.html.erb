@@ -1,0 +1,25 @@
+<%
+dd ||= Date.today
+
+def render_day(d)
+	@schedules ||= [@schedule]
+	dtext = []
+	res = %(<span class="cal-day-number">#{d.mday.to_s}</span>)
+	names = []
+	options = nil
+	@schedules.each do |e|
+		if !e.schedule.blank? && e.schedule.include?(d.to_date)
+			names << e.name
+			options ||= {:class => "specialDay"}
+		end
+	end
+	res << " #{names.join("<br/>")}"
+	options ||= {}
+	return [res,options]
+end
+%>
+<%=
+calendar :year => dd.year, :month => dd.month do |d| 
+	render_day(d)
+end
+%>

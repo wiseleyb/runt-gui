@@ -32,6 +32,7 @@ thead tr {
 
 .dayName th {
   font-size: 0.7em;
+	padding: 30px;
   padding-top: 0.6em;
   padding-bottom: 0.3em;
   background-color: #303030;
@@ -42,6 +43,7 @@ thead tr {
 .otherMonth, .day, .specialDay {
   padding: 0.7em 1em;
   border-right: 1px solid #111111;
+	font-size: 12px;
 }
 
 .otherMonth {
@@ -52,6 +54,7 @@ thead tr {
 .day, .specialDay {
   border-bottom: 1px solid #111111;
   background-color: #333333;
+	height: 100px;
 }
 .specialDay {
   background-color: #a8a8a8;
@@ -72,6 +75,9 @@ thead tr {
 .today {
 	background-color: white;
 	color: black;
+}
+tr {
+	vertical-align: top;
 }
 
 Colors: 

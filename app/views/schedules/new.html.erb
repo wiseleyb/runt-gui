@@ -1,0 +1,197 @@
+<%
+arr30 = (Array.new(30) {|i| i += 1}).collect{|i| i.to_s}
+%>
+<h1>New Schedule (Google Calendar Style)</h1>
+
+<% form_for(@schedule) do |f| %>
+  <%= f.error_messages %>
+
+	<table width="100%">
+		<tr>
+			<td>
+			  <p>
+			    <%= f.label :what %><br />
+			    <%= f.text_field :name %>
+			  </p>
+
+				<p>
+					<%=f.label :when %><br />
+					<%=f.calendar_date_select :datetime_from, 
+										:time => true, 
+										:minute_interval => 30,
+										:onchange => "set_titles();" %> 
+					to 
+					<%=select_time @schedule.datetime_to, :seconds => false %>
+				</p>
+
+				<p>
+					<%= f.label :repeats %><br/>
+					<%= f.select :repeats, Schedule.for_options,{}, {:onchange => "repeat_changed(this);"} %>
+				</p>
+			</td>
+			<td align="right">
+				<%= render :partial => "cal" %>
+			</td>
+		</tr>
+	</table>
+	<br/>
+	<div id="does_not_repeat" class="repeats-div">
+	</div>
+	
+	<!--  DAILY -->
+	<div id="daily" class="repeats-div">
+		<div id="daily-title" class="title">Daily</div>
+		<p>Repeat every: <%=f.select :daily_repeat_every, arr30, {}, {:onchange => "set_daily_title();"} %> 
+			<span id="daily_days"><%=pluralize2(@schedule.daily_repeat_every, "day")%></span>
+		</p>
+		<p>Ends: <%=f.radio_button :daily_range, "never", :onclick => "set_daily_title();"%>Never
+						 &nbsp;&nbsp;&nbsp;&nbsp;
+						 <%=f.radio_button :daily_range, "until", :onclick => "set_daily_title();"%>On 
+						 <%=f.calendar_date_select :daily_ends, :onchange => "set_daily_title();"%>
+		</p>
+	</div>
+	
+	<!-- WEEKLY -->
+	<div id="weekly" class="repeats-div">
+		<div id="weekly-title" class="title">Weekly</div>
+		<p>Repeat every: <%=f.select :weekly_repeat_every, arr30, {}, {:onchange => "set_weekly_title();"} %> 
+			<span id="weekly_days"><%=pluralize2(@schedule.weekly_repeat_every, "weeks")%></span>
+		</p>
+		<p>Weekly on:<br/>
+			<% Schedule::DAYS_OF_WEEK.each do |w| %>
+				<%=f.check_box "wd#{w[0]}", {:onclick => "set_weekly_title();"} %><%=w[1]%>&nbsp;&nbsp;
+			<% end %>
+		<p>Ends: <%=f.radio_button :weekly_range, "never", :onclick => "set_weekly_title();"%>Never
+						 &nbsp;&nbsp;&nbsp;&nbsp;
+						 <%=f.radio_button :weekly_range, "until", :onclick => "set_weekly_title();"%>On 
+						 <%=f.calendar_date_select :weekly_ends, :onchange => "set_weekly_title();"%>
+	</div>
+
+	<!-- MONTHLY -->
+	<div id="monthly" class="repeats-div">
+		<div id="monthly-title" class="title">Monthly</div>
+		<p>Repeat every: <%=f.select :monthly_repeat_every, arr30, {}, {:onchange => "set_monthly_title();"} %> 
+			<span id="monthly_days"><%=pluralize2(@schedule.monthly_repeat_every, "month")%></span>
+		</p>
+		<p>Repeat By:<br/>
+ 			 <%=f.radio_button :monthly_repeat_by, "day_of_month", :onclick => "set_monthly_title();"%>day of month
+			 &nbsp;&nbsp;
+			 <%=f.radio_button :monthly_repeat_by, "day_of_week", :onclick => "alert('coming soon');"%>day of week
+			 &nbsp;&nbsp;
+			 <%=f.radio_button :monthly_repeat_by, "last_day_of_month", :onclick => "set_monthly_title();"%>last day of month
+		</p>
+
+		<p>Ends: <%=f.radio_button :monthly_range, "never", :onclick => "set_monthly_title();"%>Never
+						 &nbsp;&nbsp;&nbsp;&nbsp;
+						 <%=f.radio_button :monthly_range, "until", :onclick => "set_monthly_title();"%>On 
+						 <%=f.calendar_date_select :monthly_ends, :onchange => "set_monthly_title();"%>
+		</p>
+	</div>
+	
+	<!-- YEARLY -->
+	<div id="yearly" class="repeats-div">
+		<div id="yearly-title" class="title">Yearly</div>
+		<p>Repeat every: <%=f.select :yearly_repeat_every, arr30, {}, {:onchange => "set_yearly_title();"} %> 
+			<span id="yearly_days"><%=pluralize2(@schedule.yearly_repeat_every, "year")%></span>
+		</p>
+		<p>Ends: <%=f.radio_button :yearly_range, "never", :onclick => "set_yearly_title();"%>Never
+						 &nbsp;&nbsp;&nbsp;&nbsp;
+						 <%=f.radio_button :yearly_range, "until", :onclick => "set_yearly_title();"%>On 
+						 <%=f.calendar_date_select :yearly_ends, :onchange => "set_yearly_title();"%>
+		</p>
+	</div>
+
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+	
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', schedules_path %>
+
+<script>
+	var globDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	
+	function start_date() {
+		return $F('schedule_datetime_from') + '';
+		//return 'March 10, 2009 01:00 PM';
+	}
+  function repeat_changed(f) {
+		$('daily').hide();
+		$('weekly').hide();
+		$('monthly').hide();
+		$('yearly').hide();
+		v = $F(f)
+		$(v).show();
+	}
+	function get_repeat_text(singular, plural) {
+		s = '';
+		d = $F('schedule_' + singular.toLowerCase() + '_repeat_every');
+		if (d == '1') {
+			s = singular;
+		} else {
+			s = 'Every ' + d + ' ' + plural;
+		}
+		return s;
+	}
+
+	function set_daily_title() {
+		s = get_repeat_text('Daily', 'days');
+		if ($F('schedule_daily_range_until') == 'until') {
+			s = s + ', until ' + $F('schedule_daily_ends');
+		}
+		$('daily-title').update(s);
+	}
+	
+	function set_weekly_title() {
+		s = get_repeat_text('Weekly', 'weeks');
+		days = '';
+		for (var i=0; i<7; i++) {
+			v = $F('schedule_wd' + i);
+			if (v != null) {
+				if (v == true) {
+					if (days == '') {
+						days = ' on ' + globDays[i];
+					} else {
+						days = days + ', ' + globDays[i];
+					}
+				}
+			}
+		} //for
+		s = s + days
+		$('weekly-title').update(s);
+	}
+	
+	function set_monthly_title() {
+		s = get_repeat_text('Monthly', 'months');
+		if ($F('schedule_monthly_repeat_by_day_of_month') == 'day_of_month') {
+			s = s + ' on day ' + Date.parse(start_date()).getDate();
+		}
+		if ($F('schedule_monthly_repeat_by_day_of_week') == 'day_of_week') {
+			s = s + ' on the ' + Date.parse(start_date()).getWeek();
+		}
+		if ($F('schedule_monthly_repeat_by_last_day_of_month') == 'last_day_of_month') {
+			s = s + ' on the last day of each month';
+		}
+		$('monthly-title').update(s);
+	}
+	
+	function set_yearly_title() {
+		s = get_repeat_text('Yearly', 'years');
+		s = s + ' on ' + Date.parse(start_date()).toString('MMMM d');
+		$('yearly-title').update(s);
+	}
+	
+	function set_titles() {
+		set_daily_title();
+		set_weekly_title();
+		set_monthly_title();
+		set_yearly_title();
+	}
+	set_titles();
+	repeat_changed($('schedule_repeats'));
+</script>

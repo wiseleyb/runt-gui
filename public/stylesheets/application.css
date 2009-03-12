@@ -16,3 +16,21 @@ a {
 	padding-right:20px;
 	padding-bottom:20px;
 }
+.title {
+	padding:20px;
+	border:solid 1px black;
+	font-size:20px;
+	background-color:#B0D4B0;
+	color: #222;
+}
+.repeats-div {
+}
+/* CALENDAR */
+.day {
+	padding:0;
+	width:60px;
+}
+.cal-day-number {
+	font-size:10px;
+	float:right;
+}

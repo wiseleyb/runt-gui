@@ -1,0 +1,15 @@
+<p>
+  <b>Name:</b>
+  <%=h @schedule.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @schedule.description %>
+</p>
+
+<%= render :partial => "cal" %>
+
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>

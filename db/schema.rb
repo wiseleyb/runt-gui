@@ -11,7 +11,7 @@
 
 ActiveRecord::Schema.define(:version => 20090304181501) do
 
-  create_table "my_wombats", :force => true do |t|
+  create_table "schedules", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.string   "schedule"

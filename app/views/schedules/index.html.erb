@@ -1,0 +1,28 @@
+<h1>Wombat's Schedules</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Schedule</th>
+  </tr>
+
+<% for schedule in @schedules %>
+  <tr>
+    <td><%=h schedule.name %></td>
+    <td><%=h schedule.description %></td>
+    <td><%=h schedule.schedule %></td>
+    <td><%= link_to 'Show', schedule %></td>
+    <td><%= link_to 'Edit', edit_schedule_path(schedule) %></td>
+    <td><%= link_to 'Destroy', schedule, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Schedule', new_schedule_path %>
+
+<hr/>
+
+<%= render :partial => "/schedules/cal" %>
