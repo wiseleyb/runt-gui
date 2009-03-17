@@ -33,4 +33,13 @@ a {
 .cal-day-number {
 	font-size:10px;
 	float:right;
+	border-left: solid 1px white;
+	border-bottom: solid 1px white;
+	padding-left:1px;
+}
+.calendar-item {
+	border: dashed 1px white;
+	margin:1px;
+	padding:1px;
+	width:100%;
 }

@@ -6,4 +6,12 @@ module ApplicationHelper
     pluralize(count, singular, plural).gsub("#{count} ","")
   end
   
+  def submit_button(obj)
+    if obj.new_record?
+      submit_tag("Create")
+    else
+      submit_tag("Update")
+    end
+  end
+  
 end

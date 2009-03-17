@@ -4,16 +4,16 @@ dd ||= Date.today
 def render_day(d)
 	@schedules ||= [@schedule]
 	dtext = []
-	res = %(<span class="cal-day-number">#{d.mday.to_s}</span>)
+	res = %(<div class="cal-day-number">#{d.mday.to_s}</div><br style="clear:both;"/>)
 	names = []
 	options = nil
 	@schedules.each do |e|
-		if !e.schedule.blank? && e.schedule.include?(d.to_date)
-			names << e.name
+		if !e.schedule.blank? && e.schedule.include?(d.to_time)
+			names << %(<div class="calendar-item">#{e.name}</div>)
 			options ||= {:class => "specialDay"}
 		end
 	end
-	res << " #{names.join("<br/>")}"
+	res << " #{names.join("")}"
 	options ||= {}
 	return [res,options]
 end

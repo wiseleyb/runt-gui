@@ -41,37 +41,6 @@ class SchedulesController < ApplicationController
   # POST /schedules.xml
   def create
     @schedule = Schedule.new(params[:schedule])
-    @schedule.datetime_from = DateTime.parse(@schedule.datetime_from)
-    s = Runt::AfterTE.new(@schedule.datetime_from - 1)
-    
-    if @schedule.repeats == "daily"
-      s = s & Runt::DayIntervalTE.new(@schedule.datetime_from.to_time,@schedule.daily_repeat_every.to_i)
-      if @schedule.daily_range == "until" && !@schedule.daily_ends.blank?
-        s = s & Runt::BeforeTE.new(DateTime.parse(@schedule.daily_ends) + 1)
-      end
-    end
-    
-    if @schedule.repeats == "weekly"
-      s = s & Runt::EveryTE.new(@schedule.datetime_from, @schedule.weekly_repeat_every.to_i, Runt::DPrecision::Precision.week)
-      if @schedule.weekly_range == "until" && !@schedule.weekly_ends.blank?
-        s = s & Runt::BeforeTE.new(DateTime.parse(@schedule.weekly_ends) + 1)
-      end
-      sweeks = nil
-      6.times do |i|
-        if @schedule.send("wd#{i}").to_i == 1
-          if sweeks.nil?
-            sweeks = Runt::DIWeek.new(i)
-          else
-            sweeks = sweeks | Runt::DIWeek.new(i)
-          end
-        end
-      end
-      s = s & (sweeks) unless sweeks.nil?
-    end
-    #raise s.to_s
-    @schedule.schedule = s
-    @schedules = [@schedule]
-    #render :action => "new"
     respond_to do |format|
       if @schedule.save
         flash[:notice] = 'Schedule was successfully created.'

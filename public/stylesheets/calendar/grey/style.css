@@ -41,7 +41,7 @@ thead tr {
 }
 
 .otherMonth, .day, .specialDay {
-  padding: 0.7em 1em;
+  margin-right: 1px;
   border-right: 1px solid #111111;
 	font-size: 12px;
 }
@@ -63,7 +63,6 @@ thead tr {
 .specialDay a, .specialDay a:visited, .specialDay a:hover {
   color: white;
   text-decoration: none;
-  padding: 1em;
 }
 .specialDay a:hover {
   color: white;
