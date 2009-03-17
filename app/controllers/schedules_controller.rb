@@ -44,6 +44,9 @@ class SchedulesController < ApplicationController
   # POST /schedules.xml
   def create
     @schedule = Schedule.new(params[:schedule])
+    @sdate = DateTime.parse(params[:sdate]) unless params[:sdate].blank?
+    @sdate ||= @schedule.datetime_from
+    @schedule_detail = ScheduleDetail.find_or_create(@schedule.id, @sdate)
     respond_to do |format|
       if @schedule.save
         flash[:notice] = 'Schedule was successfully created.'
@@ -60,6 +63,9 @@ class SchedulesController < ApplicationController
   # PUT /schedules/1.xml
   def update
     @schedule = Schedule.find(params[:id])
+    @sdate = DateTime.parse(params[:sdate]) unless params[:sdate].blank?
+    @sdate ||= @schedule.datetime_from
+    @schedule_detail = ScheduleDetail.find_or_create(@schedule.id, @sdate)
 
     respond_to do |format|
       if @schedule.update_attributes(params[:schedule])
