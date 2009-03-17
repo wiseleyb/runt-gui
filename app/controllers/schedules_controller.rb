@@ -15,6 +15,7 @@ class SchedulesController < ApplicationController
   def show
     @schedule = Schedule.find(params[:id])
     @sdate = DateTime.parse(params[:sdate]) unless params[:sdate].blank?
+    @sdate ||= @schedule.datetime_from
     @schedule_detail = ScheduleDetail.find_or_create(@schedule.id, @sdate)
     respond_to do |format|
       format.html # show.html.erb
