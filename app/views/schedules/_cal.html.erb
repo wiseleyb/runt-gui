@@ -1,5 +1,5 @@
 <%
-dd ||= Date.today
+#dd ||= Date.today
 
 def render_day(d)
 	@schedules ||= [@schedule]
@@ -8,8 +8,10 @@ def render_day(d)
 	names = []
 	options = nil
 	@schedules.each do |e|
+		star = ""
+		star = "*" unless e.schedule_detail(d).nil?
 		if !e.schedule.blank? && e.schedule.include?(d.to_time)
-			names << %(<div class="calendar-item">#{e.name}</div>)
+			names << %(<div class="calendar-item">#{star}#{link_to(e.name, "/schedules/show/#{e.id}?sdate=#{d.year}-#{d.month}-#{d.day}")}</div>)
 			options ||= {:class => "specialDay"}
 		end
 	end
@@ -17,7 +19,18 @@ def render_day(d)
 	options ||= {}
 	return [res,options]
 end
+
+url = "/schedules/change_date"
+if @schedule
+	url += "?id=#{@schedule.id}"
+end
+@date ||= DateTime.now
+dd = @date.to_date
 %>
+<%= form_remote_tag :url => url, :update => "calendar-div", :method => :get %>
+	<%=select_date(@date, :discard_day => true)%>
+	<%=submit_tag "view" %>
+</form>
 <%=
 calendar :year => dd.year, :month => dd.month do |d| 
 	render_day(d)

@@ -17,6 +17,7 @@ class Schedule < ActiveRecord::Base
   # 
   # #yearly
   # attr_accessor :yearly_repeat_every, :yearly_range, :yearly_ends
+  has_many :schedule_details, :dependent => :destroy
   
   attr_accessor :schedule
   
@@ -46,7 +47,10 @@ class Schedule < ActiveRecord::Base
     s.repeats = "does_not_repeat"
     s.daily_repeat_every = 1
     s.daily_range = "never"
-    s.daily_ends = s.datetime_to
+    s.weekly_range = "never"
+    s.monthly_range = "never"
+    s.yearly_range = "never"
+    #s.daily_ends = s.datetime_to
     #s.schedule = Runt::DIMonth.new(Runt::Last_of,Runt::Mon) | Runt::DIWeek.new(Runt::Wed) | Runt::DIWeek.new(Runt::Fri)
     s.schedule = Runt::DayIntervalTE.new(s.datetime_from.to_date,3)
     return s
@@ -60,10 +64,21 @@ class Schedule < ActiveRecord::Base
     return res
   end
   
+  def schedule_detail(d)
+    ScheduleDetail.find(:first, 
+      :conditions => ["schedule_id = ? and date(schedule_date) = ?", self.id, d.strftime("%Y-%m-%d")])
+  end
+
   def schedule
     # runt docs:  http://runt.rubyforge.org/
 
     s = Runt::AfterTE.new(self.datetime_from - 1.day)
+    
+    if self.repeats == "does_not_repeat"
+      s = s & Runt::REMonth.new(self.datetime_from.day)
+      s = s & Runt::REYear.new(self.datetime_from.month)
+      s = s & Runt::YearTE.new(self.datetime_from.year)
+    end
     
     if self.repeats == "daily"
       s = s & Runt::DayIntervalTE.new(self.datetime_from.to_time,self.daily_repeat_every.to_i)

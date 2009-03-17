@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :schedules
+  map.resources :schedule_details
+
+  map.resources :schedules, :collection => {:change_date => :get}
 
   # The priority is based upon order of creation: first created -> highest priority.
 

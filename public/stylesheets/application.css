@@ -28,7 +28,7 @@ a {
 /* CALENDAR */
 .day {
 	padding:0;
-	width:60px;
+	width:150px;
 }
 .cal-day-number {
 	font-size:10px;
@@ -41,5 +41,8 @@ a {
 	border: dashed 1px white;
 	margin:1px;
 	padding:1px;
-	width:100%;
+	width:100px;
+}
+.calendar-item a {
+	color: #555;
 }

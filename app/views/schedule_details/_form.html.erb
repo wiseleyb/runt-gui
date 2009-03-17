@@ -1,0 +1,8 @@
+<% form_for(@schedule_detail) do |f| %>
+	<%=f.hidden_field :schedule_id%>
+	<%=f.hidden_field :schedule_date%>
+	<p><b>Notes for <%=@schedule_detail.schedule_date.strftime("%Y-%m-%d")%></b><br/>
+	<%=f.text_area :notes, {:rows => 8, :cols => 40}%>
+	</p>
+	<%=f.submit "Update" %>
+<% end %>

@@ -1,0 +1,18 @@
+<p>
+  <b>Schedule:</b>
+  <%=h @schedule_detail.schedule_id %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @schedule_detail.notes %>
+</p>
+
+<p>
+  <b>Schedule date:</b>
+  <%=h @schedule_detail.schedule_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_schedule_detail_path(@schedule_detail) %> |
+<%= link_to 'Back', schedule_details_path %>

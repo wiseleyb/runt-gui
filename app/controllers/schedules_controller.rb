@@ -14,6 +14,8 @@ class SchedulesController < ApplicationController
   # GET /schedules/1.xml
   def show
     @schedule = Schedule.find(params[:id])
+    @sdate = DateTime.parse(params[:sdate]) unless params[:sdate].blank?
+    @schedule_detail = ScheduleDetail.find_or_create(@schedule.id, @sdate)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @schedule }
@@ -81,4 +83,15 @@ class SchedulesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def change_date
+    @date = DateTime.parse("#{params[:date][:year]}-#{params[:date][:month]}-#{params[:date][:day]}")
+    if params[:id]
+      @schedule = Schedule.find_by_id params[:id].to_i
+    else
+      @schedules = Schedule.find(:all)
+    end
+    render :partial => "/schedules/cal"
+  end
+  
 end

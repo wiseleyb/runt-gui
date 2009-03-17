@@ -1,1 +1,19 @@
 Requires ruby 1.8.7 for some of the Runt functionality.
+
+This is a very, very early version of something sort of like Google Calendar done in Rails.
+
+You can preview it at http://www.wiseleyb-runt-gui.com
+
+I'll probably be converting this to a Rails 3 engine at some point.
+
+Overview:
+
+This is a UI that generates data to create Runt temporal expression http://runt.rubyforge.org/ to support Google calendar like scheduling.  
+
+You can store day specific information in schedule_details.  As an example if you click on a particular day you can write notes about that
+specific day.  It creates these records as needed - allowing you to have an event that repeat forever without having to generate all that data.
+
+This isn't even close to scalable yet... it's barely even useable right now.
+
+-ben
+wiseleyb@gmail.com

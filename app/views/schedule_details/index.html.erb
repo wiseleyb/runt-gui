@@ -1,0 +1,24 @@
+<h1>Listing schedule_details</h1>
+
+<table>
+  <tr>
+    <th>Schedule</th>
+    <th>Notes</th>
+    <th>Schedule date</th>
+  </tr>
+
+<% for schedule_detail in @schedule_details %>
+  <tr>
+    <td><%=h schedule_detail.schedule_id %></td>
+    <td><%=h schedule_detail.notes %></td>
+    <td><%=h schedule_detail.schedule_date %></td>
+    <td><%= link_to 'Show', schedule_detail %></td>
+    <td><%= link_to 'Edit', edit_schedule_detail_path(schedule_detail) %></td>
+    <td><%= link_to 'Destroy', schedule_detail, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New schedule_detail', new_schedule_detail_path %>

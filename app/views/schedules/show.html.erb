@@ -1,20 +1,34 @@
-<p>
-  <b>Name:</b>
-  <%=h @schedule.name %>
-</p>
+<table>
+	<tr>
+		<td>
+			<p>
+			  <b>Name:</b>
+			  <%=h @schedule.name %>
+			</p>
 
-<p>
-  <b>Description:</b>
-  <%=h @schedule.description %>
-</p>
+			<p>
+			  <b>Description:</b>
+			  <%=h @schedule.description %>
+			</p>
 
-<p>
-	<b>Schedule:</b>
-	<%= @schedule.schedule_description %>
-</p>
+			<p>
+				<b>Schedule:</b>
+				<%= @schedule.schedule_description %>
+			</p>
+		</td>
+		<td>
+			<% if @sdate %>	
+				<%= render :partial => "/schedule_details/form" %>
+			<% end %>
+		</td>
+	</tr>
+</table>
 
-<%= render :partial => "cal" %>
+<hr/>
 
+<div id="calendar-div">
+	<%= render :partial => "cal" %>
+</div>
 
 <%= link_to 'Edit', edit_schedule_path(@schedule) %> |
 <%= link_to 'Back', schedules_path %>

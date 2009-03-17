@@ -1,0 +1,24 @@
+<h1>Editing schedule_detail</h1>
+
+<% form_for(@schedule_detail) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :schedule_id %><br />
+    <%= f.text_field :schedule_id %>
+  </p>
+  <p>
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </p>
+  <p>
+    <%= f.label :schedule_date %><br />
+    <%= f.date_select :schedule_date %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @schedule_detail %> |
+<%= link_to 'Back', schedule_details_path %>
